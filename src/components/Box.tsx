@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from "react";
 import { cn } from "../utils/cn";
 import getFibonacci from "../utils/getFibonacciItem";
+import ResizableFontsize from "./ResizableFontsize";
 
 interface BoxProps {
   number: number;
@@ -20,7 +21,7 @@ const Box: FC<BoxProps> = ({ number, isActive }) => {
         }
       )}
     >
-      {displayLabel}
+      <ResizableFontsize text={String(displayLabel)} />
     </div>
   );
 };

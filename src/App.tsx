@@ -1,16 +1,20 @@
 import { useMemo, useState } from "react";
 import Box from "./components/Box";
 import useHorizontalScrollPercent from "./hooks/useHorizontalScrollPercent";
+import useHorizontalScroll from "./hooks/useHorizontalScroll";
+import useMergedRef from "@react-hook/merged-ref";
 
 function App() {
   //
   const [boxCount, setBoxCount] = useState(10);
   const { ref, scrollPercent } = useHorizontalScrollPercent();
+  const containerRef = useHorizontalScroll();
   //
   const activeBoxId = useMemo(() => {
     return Math.floor((scrollPercent / 100) * (boxCount - 1));
   }, [scrollPercent, boxCount]);
   //
+  const multiRef = useMergedRef(ref, containerRef);
   return (
     <div className="w-[100dvw] h-[100dvh] flex flex-col gap-5 items-center justify-center text-xs">
       <div className="flex items-center gap-3">
@@ -27,8 +31,8 @@ function App() {
         />
       </div>
       <div
-        ref={ref}
-        className="shadow p-3 flex items-center rounded gap-3 w-[70%] overflow-auto"
+        ref={multiRef}
+        className="shadow p-3 flex items-center rounded gap-3 w-[70%] overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-200"
       >
         {Array.from({ length: boxCount }, (_, i) => ({
           id: i,
